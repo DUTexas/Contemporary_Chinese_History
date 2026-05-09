@@ -4,585 +4,347 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contemporary Chinese History — Timeline</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <style>
         :root {
             --ink: #1a1a1a;
             --paper: #f5f0e8;
             --paper-light: #faf7f1;
             --accent: #b8342e;
-            --accent-dark: #8a2721;
-            --accent-glow: rgba(184, 52, 46, 0.08);
             --muted: #7a7062;
             --line: #d4cbbf;
             --line-light: #e8e1d6;
-            --shadow: rgba(26, 26, 26, 0.06);
-            --serif: 'Playfair Display', Georgia, serif;
-            --sans: 'Source Sans 3', 'Segoe UI', sans-serif;
-            --mono: 'JetBrains Mono', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: var(--sans);
+            font-family: 'Source Sans 3', sans-serif;
             background: var(--paper);
             color: var(--ink);
             line-height: 1.6;
-            min-height: 100vh;
         }
 
-        /* ───── Header ───── */
         header {
             text-align: center;
-            padding: 4rem 2rem 3rem;
+            padding: 3.5rem 2rem 2.5rem;
             border-bottom: 1px solid var(--line);
-            background: linear-gradient(180deg, var(--paper-light) 0%, var(--paper) 100%);
-        }
-
-        header .overline {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 1rem;
         }
 
         header h1 {
-            font-family: var(--serif);
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 0.75rem;
-            color: var(--ink);
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            margin-bottom: 0.4rem;
         }
 
-        header .subtitle {
-            font-size: 1.05rem;
+        header p {
             color: var(--muted);
             font-weight: 300;
-            max-width: 500px;
+        }
+
+        .timeline {
+            max-width: 720px;
             margin: 0 auto;
-        }
-
-        /* ───── Filter Bar ───── */
-        .filter-bar {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid var(--line-light);
-            background: var(--paper-light);
-        }
-
-        .filter-btn {
-            font-family: var(--mono);
-            font-size: 0.7rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            padding: 0.4rem 1rem;
-            border: 1px solid var(--line);
-            border-radius: 2px;
-            background: transparent;
-            color: var(--muted);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .filter-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .filter-btn.active {
-            background: var(--ink);
-            color: var(--paper);
-            border-color: var(--ink);
-        }
-
-        /* ───── Timeline Container ───── */
-        .timeline-container {
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 3rem 2rem 6rem;
+            padding: 2rem 2rem 4rem;
             position: relative;
         }
 
-        /* Vertical spine */
-        .timeline-container::before {
+        /* Vertical line */
+        .timeline::before {
             content: '';
             position: absolute;
-            left: 2rem;
-            top: 0;
-            bottom: 0;
+            left: 6.5rem;
+            top: 2rem;
+            bottom: 4rem;
             width: 2px;
             background: var(--line);
         }
 
-        @media (min-width: 640px) {
-            .timeline-container::before {
-                left: 50%;
-                transform: translateX(-1px);
-            }
-        }
-
-        /* ───── Era Divider ───── */
-        .era-divider {
+        .event {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
             position: relative;
-            text-align: center;
-            margin: 3rem 0 2rem;
-            padding-left: 3rem;
         }
 
-        @media (min-width: 640px) {
-            .era-divider { padding-left: 0; }
-        }
-
-        .era-divider span {
-            font-family: var(--serif);
-            font-style: italic;
-            font-size: 1rem;
+        .event-date {
+            flex-shrink: 0;
+            width: 5rem;
+            text-align: right;
+            padding-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
             color: var(--accent);
-            background: var(--paper);
-            padding: 0 1.5rem;
-            position: relative;
+            line-height: 1.4;
         }
 
-        /* ───── Timeline Entry ───── */
-        .timeline-entry {
-            position: relative;
-            padding-left: 4rem;
-            margin-bottom: 2.5rem;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Dot on the spine */
-        .timeline-entry::before {
-            content: '';
-            position: absolute;
-            left: calc(2rem - 5px);
-            top: 1.5rem;
+        /* Dot */
+        .event-dot {
+            flex-shrink: 0;
             width: 12px;
             height: 12px;
             border-radius: 50%;
             background: var(--paper);
             border: 2px solid var(--accent);
-            transition: all 0.2s ease;
+            margin-top: 1.1rem;
             z-index: 1;
+            transition: background 0.2s;
         }
 
-        .timeline-entry:hover::before {
+        /* For span events, make it a diamond */
+        .event.span .event-dot {
+            border-radius: 2px;
+            transform: rotate(45deg);
+        }
+
+        .event:hover .event-dot {
             background: var(--accent);
-            box-shadow: 0 0 0 4px var(--accent-glow);
         }
 
-        @media (min-width: 640px) {
-            .timeline-entry {
-                width: 47%;
-                padding-left: 0;
-                padding-right: 2.5rem;
-            }
-
-            .timeline-entry::before {
-                left: auto;
-                right: -6px;
-            }
-
-            .timeline-entry:nth-child(even) {
-                margin-left: 53%;
-                padding-right: 0;
-                padding-left: 2.5rem;
-            }
-
-            .timeline-entry:nth-child(even)::before {
-                right: auto;
-                left: -6px;
-            }
-
-            .era-divider ~ .timeline-entry { /* reset alternation is handled by JS */ }
-        }
-
-        .entry-card {
+        .event-card {
+            flex: 1;
             background: var(--paper-light);
             border: 1px solid var(--line-light);
-            padding: 1.5rem;
+            padding: 1rem 1.25rem;
             cursor: pointer;
-            transition: all 0.25s ease;
-            position: relative;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        .entry-card:hover {
+        .event-card:hover {
             border-color: var(--line);
-            box-shadow: 0 4px 20px var(--shadow);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
 
-        .entry-card.expanded {
-            border-color: var(--accent);
-            border-left-width: 3px;
+        .event-card.open {
+            border-left: 3px solid var(--accent);
         }
 
-        .entry-date {
-            font-family: var(--mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.06em;
-            color: var(--accent);
-            margin-bottom: 0.4rem;
-        }
-
-        .entry-title {
-            font-family: var(--serif);
-            font-size: 1.2rem;
+        .event-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
             font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 0.3rem;
         }
 
-        .entry-tag {
-            display: inline-block;
-            font-family: var(--mono);
-            font-size: 0.6rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--muted);
-            background: var(--paper);
-            border: 1px solid var(--line-light);
-            padding: 0.15rem 0.5rem;
-            margin-top: 0.4rem;
-            border-radius: 1px;
-        }
-
-        .entry-notes {
+        .event-notes {
             display: none;
-            margin-top: 1rem;
-            padding-top: 1rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
             border-top: 1px solid var(--line-light);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             color: #3a3630;
-            line-height: 1.75;
+            line-height: 1.7;
         }
 
-        .entry-notes.visible {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
+        .event-notes.show { display: block; }
+        .event-notes p { margin-bottom: 0.5rem; }
+        .event-notes ul { margin: 0.4rem 0 0.5rem 1.2rem; }
 
-        .entry-notes p {
-            margin-bottom: 0.75rem;
-        }
-
-        .entry-notes p:last-child {
-            margin-bottom: 0;
-        }
-
-        .entry-notes ul {
-            margin: 0.5rem 0 0.75rem 1.25rem;
-        }
-
-        .entry-notes li {
-            margin-bottom: 0.3rem;
-        }
-
-        .expand-hint {
-            font-family: var(--mono);
-            font-size: 0.65rem;
-            color: var(--muted);
-            margin-top: 0.5rem;
-            letter-spacing: 0.04em;
-            transition: color 0.2s;
-        }
-
-        .entry-card:hover .expand-hint {
-            color: var(--accent);
-        }
-
-        /* ───── Empty State ───── */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--muted);
-            font-style: italic;
-        }
-
-        /* ───── Footer ───── */
         footer {
             text-align: center;
-            padding: 2rem;
-            border-top: 1px solid var(--line-light);
-            font-family: var(--mono);
-            font-size: 0.65rem;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--muted);
+            border-top: 1px solid var(--line-light);
         }
 
-        /* ───── Scroll-triggered stagger ───── */
-        .timeline-entry:nth-child(1)  { animation-delay: 0.05s; }
-        .timeline-entry:nth-child(2)  { animation-delay: 0.1s; }
-        .timeline-entry:nth-child(3)  { animation-delay: 0.15s; }
-        .timeline-entry:nth-child(4)  { animation-delay: 0.2s; }
-        .timeline-entry:nth-child(5)  { animation-delay: 0.25s; }
-        .timeline-entry:nth-child(6)  { animation-delay: 0.3s; }
-        .timeline-entry:nth-child(7)  { animation-delay: 0.35s; }
-        .timeline-entry:nth-child(8)  { animation-delay: 0.4s; }
+        @media (max-width: 500px) {
+            .timeline::before { left: 1rem; }
+            .event-date { width: auto; min-width: 0; font-size: 0.65rem; }
+            .event { gap: 0.75rem; }
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="overline">Course Notes</div>
     <h1>Contemporary Chinese History</h1>
-    <div class="subtitle">An interactive timeline of key events, movements, and turning points</div>
+    <p>Course notes & timeline</p>
 </header>
 
-<div class="filter-bar" id="filterBar">
-    <button class="filter-btn active" data-category="all">All</button>
-</div>
+<div class="timeline" id="timeline"></div>
 
-<div class="timeline-container" id="timeline"></div>
-
-<footer>Last updated — <span id="lastUpdated"></span></footer>
+<footer>Last updated — <span id="updated"></span></footer>
 
 <script>
 /*
- * ═══════════════════════════════════════════════════════════════
- *   EDIT YOUR TIMELINE DATA HERE
- * ═══════════════════════════════════════════════════════════════
+ * ════════════════════════════════════════════════════════════
+ *   YOUR EVENTS — edit this array to add/remove entries
+ * ════════════════════════════════════════════════════════════
  *
- *  Each event has:
- *    - date:     Display date string (e.g. "1949", "Oct 1, 1949", "1958–1962")
- *    - sortYear: Numeric year for sorting (e.g. 1949, 1958)
- *    - title:    Short event title
- *    - category: Tag for filtering (e.g. "political", "economic", "cultural", "military")
- *    - notes:    Your course notes — supports basic HTML (<p>, <ul>, <li>, <em>, <strong>)
- *    - era:      (Optional) If present, a section divider is shown before this event
+ *  year:      number, used for sorting
+ *  date:      display string — "1949" or "1958–1962" etc.
+ *  title:     event name
+ *  notes:     your notes (HTML ok: <p>, <ul>, <li>, <em>, <strong>)
+ *  span:      (optional) true if event covers multiple years
  */
 
 const EVENTS = [
     {
-        era: "Revolution & Founding",
+        year: 1919,
+        date: "1919",
+        title: "May Fourth Movement",
+        notes: `
+            <p>Student protests against the Treaty of Versailles and the transfer of German concessions in Shandong to Japan. Catalyzes a broader intellectual and cultural movement questioning Confucian tradition and embracing science and democracy.</p>
+        `
+    },
+    {
+        year: 1921,
+        date: "1921",
+        title: "Founding of the Chinese Communist Party",
+        notes: `
+            <p>The CCP is founded in Shanghai with around 50 members. Early party organizing draws on Comintern support and Marxist study circles that emerged from the May Fourth era.</p>
+        `
+    },
+    {
+        year: 1934,
+        date: "1934–1935",
+        title: "The Long March",
+        span: true,
+        notes: `
+            <p>The Red Army retreats ~6,000 miles from Jiangxi to Shaanxi to escape KMT encirclement. Mao consolidates leadership during the march. It becomes a founding myth of the PRC.</p>
+        `
+    },
+    {
+        year: 1937,
+        date: "1937–1945",
+        title: "Second Sino-Japanese War",
+        span: true,
+        notes: `
+            <p>Full-scale war with Japan. The KMT bears the brunt of conventional fighting while the CCP builds rural base areas behind Japanese lines. The war reshapes the balance of power between the two parties.</p>
+        `
+    },
+    {
+        year: 1946,
+        date: "1946–1949",
+        title: "Chinese Civil War (Final Phase)",
+        span: true,
+        notes: `
+            <p>Full-scale civil war resumes after WWII. CCP land reform campaigns build rural support while KMT suffers from hyperinflation and military overextension. The KMT retreats to Taiwan by late 1949.</p>
+        `
+    },
+    {
+        year: 1949,
         date: "October 1, 1949",
-        sortYear: 1949,
         title: "Founding of the People's Republic of China",
-        category: "political",
         notes: `
-            <p>Mao Zedong proclaims the establishment of the PRC from Tiananmen Gate in Beijing, 
-            marking the end of the Chinese Civil War on the mainland.</p>
-            <p><strong>Key points from lecture:</strong></p>
+            <p>Mao proclaims the PRC from Tiananmen Gate. "New Democracy" framework guides the early state — a coalition in rhetoric, CCP consolidation in practice.</p>
             <ul>
-                <li>KMT retreats to Taiwan; unresolved sovereignty question persists</li>
-                <li>"New Democracy" framework — coalition rhetoric masking CCP consolidation</li>
-                <li>Land reform campaigns begin almost immediately in rural areas</li>
+                <li>Land reform campaigns intensify in rural areas</li>
+                <li>KMT retreats to Taiwan — sovereignty question remains unresolved</li>
             </ul>
-            <p><em>Add your own notes here...</em></p>
         `
     },
     {
-        date: "September 9th, 1976",
-        sortYear: 1976,
-        title: "Death of Mao",
-        category: "political",
-        notes: `
-            <p> Mao's death, state funeral held 9 days later </p>
-        `
-    },
-    {
-
+        year: 1950,
         date: "1950–1953",
-        sortYear: 1950,
-        title: "Korean War & Mass Campaigns",
-        category: "military",
+        title: "Korean War",
+        span: true,
         notes: `
-            <p>China's entry into the Korean War reshapes both foreign policy and domestic politics. 
-            The "Resist America, Aid Korea" campaign mobilizes popular support while enabling 
-            intensified campaigns against internal "enemies."</p>
-            <p><em>Add your own notes here...</em></p>
+            <p>China intervenes in Korea under the banner of "Resist America, Aid Korea." The war enables domestic mass campaigns against internal "enemies" and cements the PRC's Cold War alignment.</p>
         `
     },
     {
-        era: "Socialist Transformation",
-        date: "1956",
-        sortYear: 1956,
-        title: "Hundred Flowers Campaign",
-        category: "political",
+        year: 1956,
+        date: "1956–1957",
+        title: "Hundred Flowers & Anti-Rightist Campaign",
+        span: true,
         notes: `
-            <p>"Let a hundred flowers bloom, let a hundred schools of thought contend." 
-            Mao invites open criticism of the Party — then reverses course.</p>
-            <p>The subsequent Anti-Rightist Campaign targets intellectuals who spoke up, 
-            labeling hundreds of thousands as "rightists." Demonstrates the dangerous 
-            oscillation between openness and repression.</p>
-            <p><em>Add your own notes here...</em></p>
+            <p>"Let a hundred flowers bloom" — Mao invites criticism of the Party, then reverses course. The Anti-Rightist Campaign labels hundreds of thousands as rightists. A pattern of invited openness followed by repression.</p>
         `
     },
     {
+        year: 1958,
         date: "1958–1962",
-        sortYear: 1958,
         title: "Great Leap Forward",
-        category: "economic",
+        span: true,
         notes: `
-            <p>Mao's campaign to rapidly transform China into an industrialized socialist society 
-            through collectivization and backyard steel production. Results in catastrophic famine 
-            with an estimated 15–55 million deaths.</p>
-            <p><strong>Key themes:</strong></p>
+            <p>Mao's campaign to rapidly industrialize through collectivization and backyard steel production. Results in catastrophic famine — estimated 15–55 million deaths.</p>
             <ul>
-                <li>Utopian voluntarism vs. material constraints</li>
-                <li>Information failures — local cadres inflate production figures</li>
-                <li>Mao's temporary retreat from day-to-day leadership after Lushan Conference (1959)</li>
+                <li>Utopian voluntarism collides with material constraints</li>
+                <li>Information failures: local cadres inflate production figures</li>
+                <li>Lushan Conference (1959) — Peng Dehuai's criticism leads to his purge</li>
+                <li>Mao temporarily retreats from day-to-day leadership</li>
             </ul>
-            <p><em>Add your own notes here...</em></p>
         `
     },
     {
-        era: "Cultural Revolution Era",
+        year: 1966,
         date: "1966–1976",
-        sortYear: 1966,
         title: "Great Proletarian Cultural Revolution",
-        category: "cultural",
+        span: true,
         notes: `
-            <p>Mao launches the Cultural Revolution to reassert ideological control and purge 
-            rivals. Red Guards mobilize; intellectuals, officials, and "class enemies" are 
-            persecuted. Massive social upheaval and factional violence.</p>
-            <p><em>Add your own notes here...</em></p>
+            <p>Mao launches the Cultural Revolution to reassert ideological control, purge rivals (especially Liu Shaoqi and Deng Xiaoping), and renew revolutionary spirit. Red Guards mobilize across the country.</p>
+            <ul>
+                <li>Intellectuals, officials, and "class enemies" persecuted</li>
+                <li>Factional violence and social upheaval on a massive scale</li>
+                <li>Sent-down youth — millions of urban students sent to the countryside</li>
+                <li>Lin Biao affair (1971) — Mao's designated successor dies fleeing China</li>
+                <li>Ends with Mao's death in September 1976</li>
+            </ul>
         `
     },
     {
+        year: 1972,
         date: "1972",
-        sortYear: 1972,
         title: "Nixon Visits China",
-        category: "political",
         notes: `
-            <p>Richard Nixon's visit to Beijing marks a dramatic shift in Cold War alignments. 
-            The Shanghai Communiqué establishes a framework for US-PRC relations, 
-            driven by shared strategic interest in countering the Soviet Union.</p>
-            <p><em>Add your own notes here...</em></p>
+            <p>Nixon's visit to Beijing and the Shanghai Communiqué mark a dramatic Cold War realignment. Both sides share a strategic interest in countering the Soviet Union.</p>
         `
     },
     {
-        era: "Reform & Opening",
+        year: 1978,
         date: "December 1978",
-        sortYear: 1978,
-        title: "Third Plenum — Reform and Opening Up",
-        category: "economic",
+        title: "Reform and Opening Up",
         notes: `
-            <p>The Third Plenum of the 11th Central Committee marks the beginning of 
-            Deng Xiaoping's reform era. Key shifts include de-collectivization of agriculture, 
-            opening to foreign investment, and the creation of Special Economic Zones.</p>
-            <p><strong>Significance:</strong> Often cited as the single most important turning 
-            point in modern Chinese economic history. The "practice as the sole criterion of 
-            truth" debate provides ideological cover for pragmatic policy.</p>
-            <p><em>Add your own notes here...</em></p>
+            <p>The Third Plenum of the 11th Central Committee launches Deng Xiaoping's reform era. De-collectivization, Special Economic Zones, and opening to foreign investment.</p>
+            <p>"Practice as the sole criterion of truth" provides ideological cover for pragmatic policy.</p>
         `
     },
     {
+        year: 1989,
         date: "June 4, 1989",
-        sortYear: 1989,
         title: "Tiananmen Square Protests",
-        category: "political",
         notes: `
-            <p>Student-led pro-democracy protests in Beijing are violently suppressed by the 
-            PLA. The crackdown becomes a defining moment in PRC history and in 
-            China's relationship with the West.</p>
-            <p><em>Add your own notes here...</em></p>
+            <p>Student-led pro-democracy protests in Beijing are violently suppressed. A defining moment in PRC history and in China's relationship with the West.</p>
         `
     },
 ];
 
-// ═══════════════════════════════════════════════════════════════
-//   RENDERING LOGIC (you probably don't need to edit below)
-// ═══════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════
+//  Render (you don't need to edit below)
+// ════════════════════════════════════════════════════════════
 
-function getCategories(events) {
-    const cats = new Set();
-    events.forEach(e => cats.add(e.category));
-    return [...cats].sort();
-}
+function render() {
+    const el = document.getElementById('timeline');
+    const sorted = [...EVENTS].sort((a, b) => a.year - b.year);
 
-function renderFilters() {
-    const bar = document.getElementById('filterBar');
-    const cats = getCategories(EVENTS);
-    cats.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = 'filter-btn';
-        btn.dataset.category = cat;
-        btn.textContent = cat;
-        bar.appendChild(btn);
-    });
-
-    bar.addEventListener('click', e => {
-        if (!e.target.classList.contains('filter-btn')) return;
-        bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        renderTimeline(e.target.dataset.category);
-    });
-}
-
-function renderTimeline(filter = 'all') {
-    const container = document.getElementById('timeline');
-    container.innerHTML = '';
-
-    const filtered = filter === 'all'
-        ? EVENTS
-        : EVENTS.filter(e => e.category === filter);
-
-    if (filtered.length === 0) {
-        container.innerHTML = '<div class="empty-state">No events in this category yet.</div>';
-        return;
-    }
-
-    // Sort by year
-    const sorted = [...filtered].sort((a, b) => a.sortYear - b.sortYear);
-
-    sorted.forEach((event, i) => {
-        // Era divider
-        if (event.era && filter === 'all') {
-            const divider = document.createElement('div');
-            divider.className = 'era-divider';
-            divider.innerHTML = `<span>${event.era}</span>`;
-            container.appendChild(divider);
-        }
-
-        const entry = document.createElement('div');
-        entry.className = 'timeline-entry';
-        entry.style.animationDelay = `${i * 0.07}s`;
-
-        entry.innerHTML = `
-            <div class="entry-card" onclick="toggleNotes(this)">
-                <div class="entry-date">${event.date}</div>
-                <div class="entry-title">${event.title}</div>
-                <span class="entry-tag">${event.category}</span>
-                <div class="expand-hint">Click to expand notes ↓</div>
-                <div class="entry-notes">${event.notes}</div>
+    el.innerHTML = sorted.map(ev => `
+        <div class="event ${ev.span ? 'span' : ''}" onclick="toggle(this)">
+            <div class="event-date">${ev.date}</div>
+            <div class="event-dot"></div>
+            <div class="event-card">
+                <div class="event-title">${ev.title}</div>
+                <div class="event-notes">${ev.notes}</div>
             </div>
-        `;
-
-        container.appendChild(entry);
-    });
+        </div>
+    `).join('');
 }
 
-function toggleNotes(card) {
-    const notes = card.querySelector('.entry-notes');
-    const hint = card.querySelector('.expand-hint');
-    const isVisible = notes.classList.contains('visible');
-
-    notes.classList.toggle('visible');
-    card.classList.toggle('expanded');
-    hint.textContent = isVisible ? 'Click to expand notes ↓' : 'Click to collapse ↑';
+function toggle(el) {
+    const card = el.querySelector('.event-card');
+    const notes = el.querySelector('.event-notes');
+    card.classList.toggle('open');
+    notes.classList.toggle('show');
 }
 
-// Init
-document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('en-US', {
+document.getElementById('updated').textContent = new Date().toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric'
 });
-renderFilters();
-renderTimeline();
-</script>
 
+render();
+</script>
 </body>
 </html>
